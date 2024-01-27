@@ -58,9 +58,22 @@ class Grid():
         Checks is the current state of the grid is sorte and returns the answer as a boolean.
         """
         # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
+        for i in range(self.m):
+            for j in range(self.n - 1):
+                if self.state[i][j] > self.state[i][j + 1]:
+                    return False
+
+        return True
 
     def swap(self, cell1, cell2):
+        (i1,j1) = cell1
+        (i2,j2) = cell2
+        if (i1 != i2 or abs(j1-j2) != 1) and (j1 != j2 or abs(i1-i2) != 1) :  
+            raise ValueError("Swap invalide")
+        if not (0 < i1 <= self.m-1 and 0 < j1 <= self.n-1) or (0 < i2 <= self.m-1 and 0 < j2 <= self.n-1) : 
+            raise ValueError("Swap Invalide, seulement en intérieur")
+        self.state[i1, j1], self.state[i2, j2] = self.state[i2, j2], self.state[i1, j1]
+
         """
         Implements the swap operation between two cells. Raises an exception if the swap is not allowed.
 
@@ -81,7 +94,12 @@ class Grid():
         cell_pair_list: list[tuple[tuple[int]]]
             List of swaps, each swap being a tuple of two cells (each cell being a tuple of integers). 
             So the format should be [((i1, j1), (i2, j2)), ((i1', j1'), (i2', j2')), ...].
+                
         """
+        for cell_pair in cell_pair_list:
+            (i1, j1), (i2, j2) = cell_pair
+            self.swap((i1, j1), (i2, j2))
+
         # TODO: implement this function (and remove the line "raise NotImplementedError").
         raise NotImplementedError
 
